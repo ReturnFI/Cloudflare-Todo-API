@@ -8,7 +8,6 @@ addEventListener('fetch', event => {
 });
 
 async function handleRequest(request) {
-
   const { method, url, headers } = request;
   const urlObj = new URL(url);
 
@@ -30,6 +29,11 @@ async function handleRequest(request) {
       const todoId = urlObj.searchParams.get('id');
       return await deleteTodo(todoId);
 
+    case 'PUT':
+      const updateId = urlObj.searchParams.get('id');
+      const updatedTodo = await request.json();
+      return await editTodo(updateId, updatedTodo);
+
     default:
       return new Response('Method Not Allowed', { status: 405 });
   }
@@ -37,7 +41,7 @@ async function handleRequest(request) {
 
 async function getTodos() {
   // @ts-ignore
-  const keys = await TODO_KV.list(); 
+  const keys = await TODO_KV.list();
   const todos = await Promise.all(
     keys.keys.map(async key => {
       // @ts-ignore
@@ -67,4 +71,23 @@ async function deleteTodo(id) {
   // @ts-ignore
   await TODO_KV.delete(id);
   return new Response('Todo deleted successfully', { status: 200 });
+}
+
+async function editTodo(id, updatedTodo) {
+  if (!id) {
+    return new Response('Bad Request: Missing ID', { status: 400 });
+  }
+  
+  // @ts-ignore
+  const existingTodo = await TODO_KV.get(id);
+  if (!existingTodo) {
+    return new Response('Not Found: Todo does not exist', { status: 404 });
+  }
+
+  // @ts-ignore
+  await TODO_KV.put(id, JSON.stringify(updatedTodo));
+  return new Response(JSON.stringify({ message: 'Todo updated successfully', id }), {
+    headers: { 'Content-Type': 'application/json' },
+    status: 200
+  });
 }
