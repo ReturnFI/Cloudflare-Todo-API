@@ -10,6 +10,7 @@ The API also includes an authentication mechanism to restrict access to authoriz
 ## Features
 - **GET**: Retrieve all to-do items.
 - **POST**: Add a new to-do item.
+- **Edit**: Edit a to-do item by ID
 - **DELETE**: Remove a to-do item by ID.
 - **Authentication**: Only requests with the correct UUID can interact with the API.
 
