@@ -32,4 +32,4 @@ def handle_edit_todo(message):
 def handle_delete_todo(message):
     delete_todo_ask_id(bot, message)
 
-bot.polling()
+bot.polling(non_stop=True)
