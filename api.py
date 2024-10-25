@@ -14,14 +14,14 @@ UUID_HEADER = json.loads(os.getenv("UUID_HEADER"))
 def get_todos():
     response = requests.get(API_URL, headers=UUID_HEADER)
     if response.status_code == 200:
-        return response.json()  # Return list of todos
+        return response.json()
     return None
 
 def add_todo(title, content):
     new_todo = {"title": title, "content": content}
     response = requests.post(API_URL, json=new_todo, headers=UUID_HEADER)
     if response.status_code == 201:
-        return response.json()  # Return newly created todo data
+        return response.json()
     return None
 
 def update_todo(todo_id, title, content):

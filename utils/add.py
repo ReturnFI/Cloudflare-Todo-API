@@ -3,7 +3,6 @@
 from telebot import TeleBot
 import api
 
-# Temporary data storage
 user_data = {}
 
 def add_todo_ask(bot: TeleBot, message):

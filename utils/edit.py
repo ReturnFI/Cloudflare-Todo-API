@@ -3,7 +3,6 @@
 from telebot import TeleBot
 import api
 
-# Temporary data storage
 user_data = {}
 
 def edit_todo_ask_id(bot: TeleBot, message):
